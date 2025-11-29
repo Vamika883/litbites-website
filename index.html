@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>LitBites — Candle Shop Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+<style>
+
+.menu-btn {
+  font-size: 30px;
+  cursor: pointer;
+  padding: 15px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1001;
+}
+
+.side-menu {
+  position: fixed;
+  left: -250px;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background: #fce4ec; /* soft pink aesthetic */
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  padding-top: 60px;
+  transition: 0.3s ease;
+  z-index: 1000;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.side-menu ul li {
+  padding: 15px 20px;
+}
+
+.side-menu ul li a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+  /* Add / Buy Buttons */
+.add-btn,
+.buy-btn {
+  padding: 6px 14px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
+}
+
+/* Add Button — light pink */
+.add-btn {
+  background: var(--pink-300);
+  color: #5a2d2a; /* brown-ish text */
+}
+
+.add-btn:hover {
+  background: var(--pink-500);
+}
+
+/* Buy Button — white with pink border */
+.buy-btn {
+  background: white;
+  border: 2px solid var(--pink-300);
+  color: var(--brown-600);
+}
+
+.buy-btn:hover {
+  border-color: var(--pink-500);
+}
+
+  #menuList {
+  max-height: 480px;   /* adjust height as you prefer */
+  overflow-y: auto;
+  padding-right: 6px;  /* prevents content from hiding under scrollbar */
+}
+
+  /* your existing styles... */
+  /* your card styles... */
+  /* your preview-grid styles... */
+
+  /* 👉 Add this at the END */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo {
+    width: 55px;
+    height: 55px;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  }
+
+:root{
+  --bg: #FDF6F3;
+  --brown-600: #7B4A2E;
+  --brown-400: #A56F4D;
+  --pink-300: #F8C8D4;
+  --pink-500: #FF9EB6;
+  --accent: #FFD9E2;
+  --card: #FFF7F6;
+  --shadow: 0 8px 20px rgba(123,74,46,0.12);
+  --radius: 16px;
+  font-family: 'Quicksand', 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: linear-gradient(180deg,var(--bg) 0%, #fff 100%);
+  color:var(--brown-600);
+  padding:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:24px;
+  min-height:100vh;
+}
+.site{
+  width:980px;
+  max-width:96vw;
+  background:linear-gradient(180deg,var(--card),#fff);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  display:grid;
+  grid-template-columns: 1fr 360px;
+}
+.hero{padding:36px;display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--brown-400),var(--pink-300));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px;box-shadow:0 6px 18px rgba(0,0,0,0.06);}
+.brand h1{margin:0;font-size:20px;letter-spacing:0.2px}
+.brand p{margin:0;font-size:12px;color:var(--brown-400)}
+.hero h2{margin:6px 0 0 0;font-size:28px;line-height:1.05;color:var(--brown-600)}
+.hero p.lead{margin:0;color:var(--brown-400);max-width:54ch}
+.cta-row{display:flex;gap:12px;align-items:center;margin-top:12px}
+.btn{background:var(--pink-500);color:white;padding:10px 16px;border-radius:12px;border:0;cursor:pointer;font-weight:700;box-shadow:0 6px 18px rgba(255,158,182,0.18);transition:transform .18s ease, box-shadow .18s ease;}
+.btn:active{transform:translateY(2px)}
+.btn-ghost{background:transparent;border:1px solid var(--pink-300);color:var(--brown-600);padding:9px 14px;border-radius:12px;font-weight:600;cursor:pointer}
+.preview-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+.card{display:flex;gap:16px;background:var(--card);padding:18px;border-radius:18px;align-items:center;box-shadow:var(--shadow);justify-content:space-between}
+.thumb{width:55px;height:55px;background:var(--pink-500);color:white;border-radius:14px;display:flex;justify-content:center;align-items:center;font-weight:bold}
+.meta h4{margin:0;font-size:14px}
+.meta p{margin:6px 0 0 0;font-size:12px;color:var(--brown-400)}
+.price{font-weight:bold;color:var(--brown-600)}
+.menu-panel{background:linear-gradient(180deg,#FFF6F7,#FFFDFC);padding:20px;display:flex;flex-direction:column;gap:12px;position:relative;border-left:1px dashed rgba(123,74,46,0.06)}
+.menu-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.menu-head h3{margin:0;font-size:18px}
+.open-toggle{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;border:0;background:linear-gradient(90deg,var(--pink-300),var(--pink-500));color:#fff;font-weight:700;cursor:pointer;box-shadow:0 8px 18px rgba(255,158,182,0.14)}
+.menu-rail{position:relative;overflow:hidden;border-radius:12px;padding:12px;background:linear-gradient(180deg,#FFF,#FFF6F8);min-height:420px}
+.menu-inner{position:absolute;top:0;left:0;right:0;bottom:0;padding:18px;transition:transform .38s cubic-bezier(.2,.9,.3,1);}
+.menu-inner.collapsed{transform:translateX(96%)}
+.menu-list{display:grid;gap:10px}
+.menu-item{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:12px;background:linear-gradient(180deg,#fff,#FFF9FA);border:1px solid rgba(123,74,46,0.04);}
+.menu-item .info{display:flex;gap:12px;align-items:center}
+.menu-item .info .name{font-weight:700;color:var(--brown-600)}
+.menu-item .info .desc{font-size:12px;color:var(--brown-400)}
+.menu-footer{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.search{display:flex;gap:8px;align-items:center;padding:8px;background:linear-gradient(90deg,#fff,#FFFBFB);border-radius:10px;border:1px solid rgba(123,74,46,0.03)}
+.search input{border:0;outline:none;background:transparent;font-size:14px;width:100%}
+.fab{position:fixed;right:20px;bottom:20px;background:var(--pink-500);color:#fff;padding:14px;border-radius:999px;border:0;box-shadow:0 18px 36px rgba(255,158,182,0.18);display:none;cursor:pointer;font-weight:700}
+@media (max-width:860px){.site{grid-template-columns:1fr}.menu-panel{order:-1;border-left:none;border-top:1px dashed rgba(123,74,46,0.06)}.fab{display:block}}
+.popup{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);backdrop-filter:blur(6px);justify-content:center;align-items:center;z-index:9999}
+.popup-content{background:var(--card);padding:28px;border-radius:20px;width:90%;max-width:420px;text-align:center;box-shadow:var(--shadow)}
+.wide-popup{max-width:600px}
+.seasonals-btn, .festival-btn, .close-btn{width:100%;padding:14px;margin-top:12px;border:none;border-radius:16px;background:var(--pink-300);cursor:pointer;font-weight:600}
+.close-btn{background:#ffe8e8}
+.festival-products .card{width:100%;margin-top:18px}
+
+</style>
+</head>
+<body>
+
+  <!-- Menu Button -->
+<div class="menu-btn" onclick="openMenu()">☰</div>
+
+<!-- Side Menu -->
+<div id="sideMenu" class="side-menu">
+  <div class="close-btn" onclick="closeMenu()">×</div>
+
+  <ul>
+    <li><a href="LitBites Web.html">Menu</a></li>
+    <li><a href="team.html">Meet The Team</a></li>
+    <li><a href="#">Other Pages</a></li>
+  </ul>
+</div>
+
+<div class="site" role="application">
+  <main class="hero" aria-labelledby="brand-title">
+    <div class="brand">
+  <img src="C:\Users\ACER\Desktop\Vamika's folder\WhatsApp Image 2025-11-26 at 13.23.55_959f1df2.jpg" class="logo" alt="LitBites Logo">
+
+  <div>
+    <h1>LitBites</h1>
+    <p>Hand-poured candles • cozy scents • small batch</p>
+  </div>
+</div>
+
+
+    <h2>Welcome — sniff, swoon, and shop cute candles</h2>
+    <p class="lead">Curated seasonal collections and everyday classics. Tap "Open Menu" to view our candle selection and prices — with playful notes & cozy vibes.</p>
+    <div class="cta-row">
+      <button class="btn" id="openMenuBtn" aria-controls="menuPanel" aria-expanded="true">Open Menu</button>
+      <button class="btn-ghost" onclick="openCart()">View Cart 🛒 (<span id="cartCount">0</span>)</button>
+    </div>
+    <div class="preview-grid" id="previewGrid" aria-hidden="false"></div>
+  </main>
+
+  <aside class="menu-panel" id="menuPanel" aria-labelledby="menuTitle">
+    <div class="menu-head">
+      <h3 id="menuTitle">Menu</h3>
+      <button class="open-toggle" id="toggleBtn" aria-pressed="false">Hide ✦</button>
+      <button class="seasonals-btn" onclick="openSeasonals()">Seasonals ✨</button>
+    </div>
+    <div class="menu-rail" aria-live="polite">
+      <div class="menu-inner collapsed" id="menuInner">
+        <div class="search" role="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+            <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.6" opacity="0.6"/>
+          </svg>
+          <input id="searchInput" placeholder="Search candles, notes, or mood" aria-label="Search candles" />
+        </div>
+        <div class="menu-list" id="menuList"></div>
+        <div class="menu-footer">
+          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+            <div style="font-weight:700">Cart: <span id="cartCountFooter">0</span></div>
+            <div style="font-size:13px;color:var(--brown-400)">Free shipping over ₹1500</div>
+          </div>
+          <button class="btn" id="checkoutBtn">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<button class="fab" id="fabToggle" aria-controls="menuPanel">Menu</button>
+
+<!-- Seasonals & Festival Popups -->
+<div id="seasonalsPopup" class="popup">
+  <div class="popup-content">
+    <h2>Seasonals ✨</h2>
+    <p>Select a festival collection:</p>
+    <button class="festival-btn" onclick="alert('Diwali products coming soon!')">🪔 Diwali</button>
+    <button class="festival-btn" onclick="alert('Christmas products coming soon!')">🎄 Christmas</button>
+    <button class="festival-btn" onclick="alert('Valentine products coming soon!')">💘 Valentine’s</button>
+    <button class="festival-btn" onclick="alert('New Year products coming soon!')">❄ New Year's</button>
+    <button class="close-btn" onclick="closeSeasonals()">Close</button>
+  </div>
+</div>
+
+<!-- Cart Popup -->
+<div id="cartPopup" class="popup">
+  <div class="popup-content wide-popup">
+    <h2>🛒 Your Cart</h2>
+    <div id="cartItems"></div>
+    <div style="margin-top:16px;font-weight:700;">Total: ₹<span id="cartTotal">0</span></div>
+    <div style="display:flex;gap:12px;margin-top:16px;">
+      <button class="festival-btn" onclick="proceedPayment()">Proceed to Payment</button>
+      <button class="close-btn" onclick="closeCart()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function openMenu() {
+  document.getElementById("sideMenu").style.left = "0";
+}
+
+function closeMenu() {
+  document.getElementById("sideMenu").style.left = "-250px";
+}
+
+function openSeasonals() {
+  document.getElementById("seasonalsPopup").style.display = "flex";
+}
+
+function closeSeasonals() {
+  document.getElementById("seasonalsPopup").style.display = "none";
+}
+
+// ---------------------
+// Candle data
+// ---------------------
+const candles = [
+  { id: 1, name: 'Cookie Crumble', desc: 'buttery • pack of 6', price: 500, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-26 at 14.05.57_8ee541b9.jpg" },
+  { id: 2, name: 'Netflix & Chill', desc: 'milky • cookie', price: 350, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-26 at 14.06.18_2563b431.jpg" },
+  { id: 3, name: 'Milk N Cookies', desc: 'sweet • homely', price: 350, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-26 at 14.12.28_28b60f07.jpg" },
+  { id: 4, name: 'Bluberry Crumbs', desc: 'berry • cream', price: 450, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-26 at 14.14.30_0b4dffc5.jpg" },
+  { id: 5, name: 'Strawberry Shortcake', desc: 'soft • strawberry', price: 450, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-26 at 14.15.11_1f575d7e.jpg" },
+  { id: 6, name: 'Christmas Tree', desc: 'festive • mint', price: 520, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-26 at 14.16.27_62ca6864.jpg" },
+  { id: 7, name: 'Ghost Puff', desc: 'marshmallow • glow', price: 400, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-26 at 14.18.07_52835687.jpg" },
+  { id: 8, name: 'Gingerbread Cottage', desc: 'spiced • warmth', price: 550, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-26 at 14.18.32_bb99519c.jpg" },
+  { id: 9, name: 'Love Spell', desc: 'heartly • romantic', price: 520, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-28 at 14.04.11_9b1dc730.jpg" },
+  { id: 10, name: 'Soft bloom', desc: 'serene •oceanic', price: 550, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-24 at 14.18.31_1247da8a.jpg" },
+  { id: 11, name: 'Wildest Blue', desc: 'blue •artistic', price: 500, img: "C:/Users/ACER/Desktop/Vamika's folder/WhatsApp Image 2025-11-26 at 13.52.13_81023324.jpg"},
+];
+
+// ---------------------
+// State + elements
+// ---------------------
+let cart = [];
+
+const previewGrid = document.getElementById('previewGrid');
+const menuInner = document.getElementById('menuInner');
+const menuList = document.getElementById('menuList');
+const toggleBtn = document.getElementById('toggleBtn');
+const openMenuBtn = document.getElementById('openMenuBtn');
+const fabToggle = document.getElementById('fabToggle');
+const searchInput = document.getElementById('searchInput');
+const cartCountEls = [document.getElementById('cartCount'), document.getElementById('cartCountFooter')];
+const cartTotalEl = document.getElementById('cartTotal');
+
+// ---------------------
+// Preview shuffle
+// ---------------------
+let shuffleIndex = 0;
+function shuffleProducts() {
+  previewGrid.innerHTML = '';
+  for (let i = 0; i < 4; i++) {
+    const c = candles[(shuffleIndex + i) % candles.length];
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="thumb"><img src="${c.img}" alt="${c.name}" style="width:100%;height:100%;border-radius:12px;object-fit:cover;"></div>
+      <div class="meta">
+        <h4>${c.name}</h4>
+        <p>${c.desc}</p>
+        <div class="price">₹${c.price}</div>
+      </div>
+    `;
+    previewGrid.appendChild(card);
+  }
+  shuffleIndex = (shuffleIndex + 1) % candles.length;
+}
+setInterval(shuffleProducts, 3000);
+shuffleProducts();
+
+// ---------------------
+// Menu render + search
+// ---------------------
+function renderList(filter = '') {
+  menuList.innerHTML = '';
+  const q = filter.trim().toLowerCase();
+  const list = candles.filter(c => (c.name + ' ' + c.desc).toLowerCase().includes(q));
+  if (!list.length) {
+    const empty = document.createElement('div');
+    empty.style.padding = '24px';
+    empty.style.textAlign = 'center';
+    empty.style.color = 'var(--brown-400)';
+    empty.textContent = 'No candles found.';
+    menuList.appendChild(empty);
+    return;
+  }
+  for (const c of list) {
+    const it = document.createElement('div');
+    it.className = 'menu-item';
+    it.innerHTML = `
+      <div class="info">
+        <div style="width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--pink-300),var(--accent));display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--brown-600)">
+          ${c.name.split(' ').map(s => s[0]).slice(0, 2).join('')}
+        </div>
+        <div>
+          <div class="name">${c.name}</div>
+          <div class="desc">${c.desc}</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+        <div class="price">₹${c.price}</div>
+        <div style="display:flex;gap:8px">
+          <button onclick="addToCart(${c.id})">Add</button>
+          <button onclick="buyNow(${c.id})">Buy</button>
+        </div>
+      </div>
+    `;
+    menuList.appendChild(it);
+  }
+}
+renderList();
+
+// ---------------------
+// Cart functions
+// ---------------------
+function updateCartCountUI() {
+  cartCountEls.forEach(el => { if (el) el.textContent = cart.length; });
+}
+
+function addToCart(id) {
+  const c = candles.find(x => x.id === id);
+  if (!c) return;
+  cart.push(c);
+  updateCartCountUI();
+}
+
+function buyNow(id) {
+  addToCart(id);
+  openCart();
+}
+
+function openCart() {
+  const popup = document.getElementById('cartPopup');
+  const itemsContainer = document.getElementById('cartItems');
+  itemsContainer.innerHTML = '';
+  let total = 0;
+
+  cart.forEach((c, index) => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.style.justifyContent = 'space-between';
+    div.innerHTML = `
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="thumb"><img src="${c.img}" style="width:100%;height:100%;border-radius:12px;object-fit:cover"></div>
+        <div class="meta"><h4>${c.name}</h4><div class="price">₹${c.price}</div></div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <button style="padding:6px 10px;border:none;border-radius:8px;background:#FF9EB6;color:#fff;cursor:pointer;font-weight:600" onclick="removeFromCart(${index})">Remove</button>
+      </div>
+    `;
+    itemsContainer.appendChild(div);
+    total += c.price;
+  });
+
+  cartTotalEl.textContent = total;
+  popup.style.display = 'flex';
+}
+
+function closeCart() {
+  document.getElementById('cartPopup').style.display = 'none';
+}
+
+function removeFromCart(index) {
+  if (index < 0 || index >= cart.length) return;
+  cart.splice(index, 1);
+  updateCartCountUI();
+  openCart(); // re-render
+}
+
+// ---------------------
+// Payment popup (Google Charts QR, robust)
+// ---------------------
+function proceedPayment() {
+  try {
+    const paymentLink = "upi://pay?pa=example@upi&pn=LitBites&am=0"; // <-- replace with your UPI link
+    const qrURL = `https://chart.googleapis.com/chart?cht=qr&chl=${encodeURIComponent(paymentLink)}&chs=220x220&chld=L|0`;
+
+    const qrPopup = document.createElement('div');
+    qrPopup.className = 'popup';
+    qrPopup.style.display = 'flex';
+    qrPopup.style.alignItems = 'center';
+    qrPopup.style.justifyContent = 'center';
+    qrPopup.style.zIndex = 10000;
+
+    const popupContent = document.createElement('div');
+    popupContent.className = 'popup-content';
+    popupContent.style.textAlign = 'center';
+    popupContent.style.maxWidth = '360px';
+    popupContent.style.padding = '20px';
+
+    popupContent.innerHTML = `
+      <h2 style="margin:0 0 10px">Hope you had a happy purchase (:</h2>
+      <div id="qrHolder" style="margin:12px 0;">
+        <img id="qrImg" alt="QR Code" style="width:220px;height:220px;border-radius:12px;border:1px solid #eee;display:block;margin:0 auto;">
+      </div>
+      <p id="qrMsg" style="font-size:14px;color:#555;margin:10px 0 0;">Scan this QR code to complete your payment.</p>
+      <div style="margin-top:14px;display:flex;gap:8px;justify-content:center">
+        <a id="fallbackLink" href="#" target="_blank" rel="noopener" style="display:none;text-decoration:none;padding:8px 12px;border-radius:8px;background:#f3f3f3;color:#333;border:1px solid #ddd">Open payment link</a>
+        <button class="close-btn" style="padding:8px 14px;border-radius:8px;border:0;background:#000;color:#fff;cursor:pointer">Close</button>
+      </div>
+    `;
+
+    qrPopup.appendChild(popupContent);
+    document.body.appendChild(qrPopup);
+
+    // close
+    popupContent.querySelector('.close-btn').addEventListener('click', () => {
+      qrPopup.remove();
+    });
+
+    const qrImg = popupContent.querySelector('#qrImg');
+    const fallbackLink = popupContent.querySelector('#fallbackLink');
+
+    // set src after added to DOM
+    qrImg.src = qrURL;
+
+    qrImg.addEventListener('load', () => {
+      fallbackLink.href = paymentLink;
+      fallbackLink.style.display = 'inline-block';
+      const msg = popupContent.querySelector('#qrMsg');
+      msg.textContent = 'Scan this QR code to complete your payment.';
+    });
+
+    qrImg.addEventListener('error', (ev) => {
+      console.error('QR image failed to load:', ev);
+      const holder = popupContent.querySelector('#qrHolder');
+      holder.innerHTML = `<div style="padding:18px;border-radius:12px;background:#fff6f6;border:1px solid #ffd6e0;color:#7B4A2E;">QR code image failed to load. Use the link below to pay.</div>`;
+      fallbackLink.href = paymentLink;
+      fallbackLink.style.display = 'inline-block';
+      const msg = popupContent.querySelector('#qrMsg');
+      msg.textContent = 'If the QR doesn’t appear, click the "Open payment link" button or scan the link on your phone.';
+    });
+
+    function escHandler(e) {
+      if (e.key === 'Escape') { qrPopup.remove(); document.removeEventListener('keydown', escHandler); }
+    }
+    document.addEventListener('keydown', escHandler);
+
+  } catch (err) {
+    console.error('proceedPayment error:', err);
+    alert('Something went wrong creating the payment popup. Check console for details.');
+  }
+}
+
+// ---------------------
+// Menu toggle + hooks
+// ---------------------
+toggleBtn.addEventListener('click', () => {
+  const collapsed = menuInner.classList.toggle('collapsed');
+  toggleBtn.textContent = collapsed ? 'Show ✦' : 'Hide ✦';
+});
+openMenuBtn.addEventListener('click', () => menuInner.classList.remove('collapsed'));
+fabToggle.addEventListener('click', () => menuInner.classList.toggle('collapsed'));
+
+searchInput.addEventListener('input', () => renderList(searchInput.value));
+
+// keep both cart counters consistent
+function syncCounters() { updateCartCountUI(); }
+syncCounters();
+
+</script>
+</body>
+</html>
